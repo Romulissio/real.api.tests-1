@@ -140,6 +140,8 @@
                     <argLine>
                         -javaagent:"C:/Users/itrom/.m2/repository/org/aspectj/aspectjweaver/1.8.10/aspectjweaver-1.8.10.jar"
                     </argLine>
+                    <argLine>--add-modules java.se.ee</argLine>
+                    <argLine>--add-modules java.xml.bind</argLine>
                     <systemProperties>
                         <property>
                             <name>junit.jupiter.extensions.autodetection.enabled</name>

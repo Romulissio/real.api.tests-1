@@ -16,7 +16,7 @@ import java.util.*;
 
 import static io.restassured.RestAssured.*;
 
-@DisplayName("Тестовый набор проверок функционала 'Agencies'")
+//@DisplayName("Тестовый набор проверок функционала 'Agencies'")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ExampleAgenciesApiTest {
 

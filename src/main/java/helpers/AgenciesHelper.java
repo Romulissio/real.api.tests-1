@@ -10,49 +10,10 @@ import java.util.*;
 
 public class AgenciesHelper {
 
-    public static DataAgency getAgenciesList(String responseJsonString) {
-        return UtilsJson.getListAgencies(responseJsonString);
-    }
-
-    public static boolean chekAgencyResponse(Agency agencyResponse, Agency agency) {
-        return agencyResponse != null
-                && agency.getName().equals(agencyResponse.getName())
-                && agency.getInn().equals(agencyResponse.getInn());
-    }
-
-    public static Agency createAgencyResponse(String responseJsonString){
-        return UtilsJson.getAgency(responseJsonString);
-    }
-
-    @Step("Создание агенства програмно, с random инн и названием")
-    public static Agency createAgency() {
-        return Agency
-                .builder()
-                    .name(UUID.randomUUID().toString())
-                    .inn(UtilsData.gerRandomBigNumber())
-                .build();
-    }
-
-    public static Long getCorrectAgencyId(List<Agency> agencies) {
-        int index =  UtilsData.getRandomAgencyListIndex(agencies.size() - 1);
-        return agencies.get(index).getId();
-    }
-    @Step("Получение несуществующего id (граничное значение)")
-    public static Long getIncorrectAgencyId(List<Agency> agencies) {
-        agencies.sort(Agency::compareData);
-        return agencies.get(agencies.size() - 1).getId() + 1;
-    }
-
-    @Step("Сравнение запрашиваемого id и id полученного агенства")
-    public static boolean checkAgencyIdAndAgencyResponseId(Long id, Agency agencyResponse) {
-        return id.equals(agencyResponse.getId());
-    }
-
-    @Step("Получение ссылок на все pages с агенствами")
-    public static Set<String> getFullAgenciesList(DataAgency dataAgency) {
+    public static Set<String> getAgenciesList(String responseJsonString) {
+        DataAgency dataAgency = UtilsJson.getListAgencies(responseJsonString);
         List<LinksMetaAgencies> listLink = dataAgency.getMeta().getLinks();
-        Set<String> notNullLink = new HashSet<String>();
-
+        Set<String> notNullLink = new HashSet<>();
         for(LinksMetaAgencies o : listLink){
             if(o.getUrl() != null){
                 notNullLink.add(o.getUrl());
@@ -61,17 +22,61 @@ public class AgenciesHelper {
         return notNullLink;
     }
 
-    @Step("Получение полного списка со всеми существующими агенствами")
+    @Step("Создание объекта Agency из ответа сервера")
+    public static Agency createAgencyResponse(String responseJsonString){
+        return UtilsJson.getAgency(responseJsonString);
+    }
+
+    @Step("Создание объекта АН")
+    public static Agency createAgency() {
+        return Agency
+                .builder()
+                    .name(UUID.randomUUID().toString())
+                    .inn(UtilsData.gerRandomBigNumber())
+                .build();
+    }
+
+    @Step("Получение случайного существующего АН")
+    public static Long getCorrectAgencyId(List<Agency> agencies) {
+        int index =  UtilsData.getRandomAgencyListIndex(agencies.size() - 1);
+        return agencies.get(index).getId();
+    }
+    @Step("Получение несуществующего АН")
+    public static Long getIncorrectAgencyId(List<Agency> agencies) {
+        agencies.sort(Agency::compareData);
+        return agencies.get(agencies.size() - 1).getId() + 1;
+    }
+
+    @Step("Получение списка АН на конкретной странице")
     public static List<Agency> createFullListAgencies(List<DataAgency> dataAgencies) {
-        List<Agency> list = new ArrayList<Agency>();
+        List<Agency> list = new ArrayList<>();
         for(DataAgency o : dataAgencies){
             list.addAll(o.getData());
         }
         return list;
     }
 
-    public static boolean checkAgenciesUpdate(Agency agencyResponse, Agency updateAgency) {
-        return agencyResponse.getName().equals(updateAgency.getName())
-                && agencyResponse.getInn().equals(updateAgency.getInn());
+    @Step("Формирование корректного адреса для запроса")
+    public static String getCorrectAgencyAdr(List<Agency> agencyFullObject, String agenciesApi) {
+        return agenciesApi + "/" + getCorrectAgencyId(agencyFullObject);
+    }
+
+    @Step("Создание объекта АН c пустым полем name")
+    public static Agency createEmptyNameAgency() {
+        return Agency
+                .builder()
+                .build();
+    }
+
+    @Step("Изменение статуса активности АН на полярный (true::false)")
+    public static Agency updateAgencyStatus(Agency agencyResponse) {
+        if(agencyResponse.isActive()){
+            agencyResponse.setActive(false);
+        }
+        if(!agencyResponse.isActive()){
+            agencyResponse.setActive(true);
+        }
+        return agencyResponse;
+
     }
 }

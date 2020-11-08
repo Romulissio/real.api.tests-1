@@ -10,6 +10,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class AuthToken implements Serializable {
 
     private String token;

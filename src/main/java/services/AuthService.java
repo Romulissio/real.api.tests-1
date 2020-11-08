@@ -2,17 +2,12 @@ package services;
 
 import config.ConfigProperties;
 import entity.User;
-import io.restassured.http.ContentType;
-import io.restassured.http.Header;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.Assertions;
-
+import services.responses.ResponseAuth;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
 import java.util.Map;
-
-import static io.restassured.RestAssured.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AuthService {
     private static String baseUrl;
@@ -36,22 +31,17 @@ public class AuthService {
      * Получение куков
      */
     public static Map<String, String> getCookiesAuth(){
-        Response response = get(baseUrl + GET_AUTH_COOKIE_URL);
-        Assertions.assertEquals(response.statusCode(), 204);
-        return new HashMap<String, String>(response.getCookies());
+        Response response = ResponseAuth.getAuthTokenAndCookies(baseUrl + GET_AUTH_COOKIE_URL);
+        assertTrue(AssertionsUtils.checkStatusCode204(response.statusCode()));
+        return response.getCookies();
     }
 
     /**
      * Получение токена для логина
      */
     public static String getApiTokenLoginEmail(Map<String, String> cookies) throws UnsupportedEncodingException {
-        Response response = given()
-                .contentType(ContentType.JSON)
-                .header(new Header("X-XSRF-TOKEN", UtilsData.decodeCookieToken(cookies)))
-                .body(user)
-                .cookies(cookies)
-                .post(baseUrl + POST_API_LOGIN_EMAIL_TOKEN);
-        Assertions.assertEquals(response.statusCode(), 200);
+        Response response = ResponseAuth.getAuthToken(cookies, user, baseUrl + POST_API_LOGIN_EMAIL_TOKEN);
+        assertTrue(AssertionsUtils.checkStatusCode200(response.statusCode()));
         return UtilsJson.getTokenFromJson(response.getBody().asString());
     }
 }

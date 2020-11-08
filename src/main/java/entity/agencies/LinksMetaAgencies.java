@@ -1,10 +1,7 @@
 package entity.agencies;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -13,18 +10,10 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class LinksMetaAgencies implements Serializable {
 
     private String url;
     private String label;
     private boolean active;
-
-    @Override
-    public String toString() {
-        return "LinksMetaAgencies{" +
-                "url='" + url + '\'' +
-                ", label='" + label + '\'' +
-                ", active=" + active +
-                '}';
-    }
 }

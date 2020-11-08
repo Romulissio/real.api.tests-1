@@ -10,6 +10,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Builder
+@ToString
 public class Agency implements Serializable, Comparable<Agency>{
 
     private Long id;
@@ -18,16 +19,6 @@ public class Agency implements Serializable, Comparable<Agency>{
     private boolean active;
     private String created_at;
     private String updated_at;
-
-    @Override
-    public String toString() {
-        return "Agency{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", inn=" + inn +
-                ", active=" + active +
-                '}';
-    }
 
     public int compareTo(Agency o) {
         return 0;

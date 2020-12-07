@@ -1,4 +1,4 @@
-package entity.agencies;
+package entity.users;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import entity.utils.LinksData;
@@ -8,15 +8,15 @@ import lombok.*;
 import java.io.Serializable;
 import java.util.List;
 
+@Data
+@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Getter
-@Setter
-public class DataAgency implements Serializable {
+public class DataListUsers implements Serializable {
 
-    private List<Agency> data;
+    private List<Users> data;
     private LinksData links;
     private MetaData meta;
 

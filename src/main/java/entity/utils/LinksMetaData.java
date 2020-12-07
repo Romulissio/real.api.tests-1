@@ -1,9 +1,9 @@
-package entity;
+package entity.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
-import java.io.Serializable;
 
+import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
@@ -11,8 +11,9 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class AuthToken implements Serializable {
+public class LinksMetaData implements Serializable {
 
-    private String token;
-    private Object debug;
+    private String url;
+    private String label;
+    private boolean active;
 }

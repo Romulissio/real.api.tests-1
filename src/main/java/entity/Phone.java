@@ -2,8 +2,6 @@ package entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
-import java.io.Serializable;
-
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
@@ -11,8 +9,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class AuthToken implements Serializable {
+public class Phone {
 
-    private String token;
-    private Object debug;
+    private String phone;
+    private String code;
 }
